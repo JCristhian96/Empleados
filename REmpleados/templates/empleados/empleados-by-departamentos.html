@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block titulo %}
+  Administracion de Empleados
+{% endblock titulo %}
+
+{% block contenido %}
+  
+{% include "includes/header.html" %}
+
+<div class="grid-container">
+    <div class="grid-x">
+        <h2 class="cell">Empleados del area de {{ndepartamento}}</h2>
+        {% if EmpleadosxDepartamento %}
+        <div class="cell">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombres</th>
+                        <th>Apellidos</th>
+                        <th>Trabajo</th>
+                        <th>Departamento</th>
+                        <th>Accion</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for elementos in EmpleadosxDepartamento %}
+                    <tr>
+                        <td>{{elementos.id}}</td>
+                        <td>{{elementos.first_name}}</td>
+                        <td>{{elementos.last_name}}</td>
+                        <td>{{elementos.get_job_display}}</td>
+                        <td>{{elementos.departamento.short_name}}</td>
+                        <td>
+                            <a href="{% url 'empleados_app:ver-empleado' elementos.id %}" class="button warning">Ver</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <div class="cell callout warning" data-closable>
+            <h5>No hay ningun Empleado Registrado</h5>
+            <p>But when you're done reading it, click the close button in the corner to dismiss this alert.</p>
+            <p>I'm using the default <code>data-closable</code> parameters, and simply fade out.</p>
+        </div>
+            
+        {% endif %}
+            
+    </div>
+</div>
+
+{% endblock contenido %}

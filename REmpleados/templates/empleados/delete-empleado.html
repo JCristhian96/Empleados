@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block titulo %}
+ Eliminacion de Empleado
+{% endblock titulo %}
+
+{% block contenido %}
+  
+{% include "includes/header.html" %}
+
+<div class="grid-container">
+    <div class="grid-x">
+        <h2 class="cell">Eliminacion de Empleado</h2>
+        <h4 class="cell">Nombres: {{Data.first_name}}</h4>
+        <h4 class="cell">Apellidos: {{Data.last_name}}</h4>
+        <div class="cell callout alert" data-closable>
+            <h5>¡Esto es importante!</h5>
+            <p>But when you're done reading it, click the close button in the corner to dismiss this alert.</p>
+            <p>I'm using the default <code>data-closable</code> parameters, and simply fade out.</p>
+        </div>
+        <form class="cell" method="POST">{% csrf_token %}
+            <button type="submit" class="button alert">Eliminar</button>
+            <a href="{% url 'empleados_app:administrar-empleados' %}" class="button">Cancelar</a>
+        </form>
+    </div>
+</div>
+{% endblock contenido %}

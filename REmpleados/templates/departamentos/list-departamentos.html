@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block titulo %}
+  Listado de Areas
+{% endblock titulo %}
+
+{% block contenido %}
+  
+{% include "includes/header.html" %}
+
+<div class="grid-container">
+    <div class="grid-x">
+        <h2 class="cell">Listado de Areas de Empresa</h2>
+        <div class="cell">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Nombre corto</th>
+                        <th>Accion</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for elementos in ListadoDepartamentos %}
+                    <tr>
+                        <td>{{ elementos.id }}</td>
+                        <td>{{ elementos.name }}</td>
+                        <td>{{ elementos.short_name }}</td>
+                        <td>
+                            <a href="{% url 'empleados_app:listar-por-area' elementos.short_name %}" class="button warning">Ver Empleados</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+{% endblock contenido %}

@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block titulo %}
+  Modificacion de Empleado
+{% endblock titulo %}
+
+{% block contenido %}
+
+{% include "includes/header.html" %}
+
+<div class="grid-container">
+    <div class="grid-x">
+        <h2 class="cell">Modificacion de Empleado</h2>
+        <form method="POST" class="cell grid-x grid-margin-x" enctype="multipart/form-data">{% csrf_token %}
+            <div class="cell large-6">
+                <label for="">Nombres
+                    {{form.first_name}}
+                </label>
+            </div>
+            <div class="cell large-6">
+                <label for="">Apellidos
+                    {{form.last_name}}
+                </label>
+            </div>
+            <div class="cell large-6">
+                <label for="">Trabajo
+                    {{form.job}}
+                </label>
+            </div>
+            <div class="cell large-6">
+                <label for="">Departamento
+                    {{form.departamento}}
+                </label>
+            </div>
+            <div class="cell large-6">
+                <label for="">Habilidades
+                    {{form.habilidades}}
+                </label>
+            </div>
+            <div class="cell large-6">
+                <label for="">Avatar
+                    {{form.avatar}}
+                </label>
+            </div>
+            <div class="cell large-1">
+                <button type="submit" class="button success">Guardar</button>
+            </div>
+            <div class="cell large-1">
+                <a href="{% url 'empleados_app:administrar-empleados' %}" class="button">Cancelar</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% endblock contenido %}

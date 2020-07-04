@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block titulo %} Listar Empleados {% endblock titulo %}
+
+{% block contenido %}
+
+{% include "includes/header.html" %}
+
+<div class="grid-container">
+    <div class="grid-x">
+        <h2 class="cell">Listado de Empleados</h2>
+        <form class="cell grid-x grid-margin-x" method="GET">{% csrf_token %}
+            <div class="cell large-5">
+                <input type="text" placeholder="Trabajador a buscar" name="nombre">
+            </div>
+            <div class="cell large-2">
+                <button type="submit" class="button success">BUSCAR</button>
+            </div>
+        </form>
+        <div class="cell">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombres</th>
+                        <th>Apellidos</th>
+                        <th width="120">Foto</th>
+                        <th>Trabajo</th>
+                        <th>Departamento</th>
+                        <th>Accion</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for elementos in ListadoEmpleados %}
+                    <tr>
+                        <td>{{ elementos.id }}</td>
+                        <td>{{ elementos.first_name }}</td>
+                        <td>{{ elementos.last_name }}</td>
+                        <td>                            
+                            {% if elementos.avatar %}
+                            <img src="{{elementos.avatar.url}}" alt="">
+                            {% else %}
+                            <img src="{% static 'img/sin_imagen.jpg' %}" alt="">
+                            {% endif %}                                
+                        </td>
+                        <td>{{ elementos.get_job_display }}</td>
+                        <td>{{ elementos.departamento.short_name }}</td>
+                        <td><a class="button warning" href="{% url 'empleados_app:ver-empleado' elementos.id %}">Ver</a></td>
+                    </tr> 
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="cell">
+            {% if is_paginated %}
+            <nav aria-label="Pagination">
+                <ul class="pagination">
+                    {% if page_obj.has_previous %}
+                    <li class="pagination-previous"><a href="?page={{page_obj.previous_page_number}}">Atras</a></li>
+                    {% endif %}
+                    {% for pagina in paginator.page_range %}
+                    
+                        {% ifequal pagina page_obj.number %} 
+                        <li class="current">{{pagina}}</li>
+                        {% else %}
+                        <li><a href="?page={{pagina}}">{{ pagina }}</a></li>  
+                        {% endifequal %}
+
+                    {% endfor %}
+                    {% if page_obj.has_next %}
+                    <li class="pagination-next"><a href="?page={{page_obj.next_page_number}}">Siguiente</li>
+                    {% endif %}                        
+                </ul>
+            </nav> 
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+{% endblock contenido %}

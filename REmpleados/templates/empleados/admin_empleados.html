@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block titulo %} Administracion de Empleados {% endblock titulo %}
+
+{% block contenido %}
+
+{% include "includes/header.html" %}
+
+<div class="grid-container">
+    <div class="grid-x">
+        <h2 class="cell">Administración de los Empleados</h2>
+        <div class="cell">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th width="100">Foto</th>
+                        <th>Nombres</th>
+                        <th>Apellidos</th>
+                        <th>Trabajo</th>
+                        <th>Departamento</th>
+                        <th colspan="2">Accion a relizar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for elementos in Data %}
+                    <tr>
+                        <td>{{ elementos.id }}</td>
+                        <td>
+                            {% if elementos.avatar %}
+                            <img src="{{ elementos.avatar.url }}" alt="">
+                            {% else %}
+                            <img src="{% static 'img/sin_imagen.jpg' %}" alt="">
+                            {% endif %}
+                        </td>
+                        <td>{{ elementos.first_name }}</td>
+                        <td>{{ elementos.last_name }}</td>
+                        <td>{{ elementos.get_job_display }}</td>
+                        <td>{{ elementos.departamento.short_name }}</td>
+                        <td><a class="button success" href="{% url 'empleados_app:modificar-empleado' elementos.id %}">Modificar</a></td>
+                        <td><a class="button alert" href="{% url 'empleados_app:eliminar-empleado' elementos.id %}">Eliminar</a></td>
+                    </tr> 
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="cell">
+            {% if is_paginated %}
+            <nav aria-label="Pagination">
+                <ul class="pagination">
+                    {% if page_obj.has_previous %}
+                    <li class="pagination-previous"><a href="?page={{page_obj.previous_page_number}}">Atras</a></li>
+                    {% endif %}
+                    {% for pagina in paginator.page_range %}
+                    
+                        {% ifequal pagina page_obj.number %} 
+                        <li class="current">{{pagina}}</li>
+                        {% else %}
+                        <li><a href="?page={{pagina}}">{{ pagina }}</a></li>  
+                        {% endifequal %}
+
+                    {% endfor %}
+                    {% if page_obj.has_next %}
+                    <li class="pagination-next"><a href="?page={{page_obj.next_page_number}}">Siguiente</li>
+                    {% endif %}                        
+                </ul>
+            </nav> 
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+{% endblock contenido %}
